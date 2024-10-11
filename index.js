@@ -40,36 +40,36 @@ formElem.addEventListener("submit", (evt) => {
 
   showState(); // shows numbers in Number Bank
 
-  console.log(state.numberBank); //logging
 });
 
 const sortOne = document.querySelector("#sortOne");
 sortOne.addEventListener("click", (evt) => {
   evt.preventDefault(); //keeps the page from refreshing when you click them buttons
   //sort into the odd and even arrays easy with if/then
-  const uno = state.numberBank.pop();
+  const uno = state.numberBank[0];
   if (uno % 2 === 0) {
     state.Evens.push(uno);
   } else {
     state.Odds.push(uno);
   }
+  state.numberBank.shift();
   showState();
 
-  console.log(`bank: ${state.numberBank}`);
-  console.log(`evens: ${state.Evens}`);
-  console.log(`odds: ${state.Odds}`);
 });
 
 const sortAll = document.querySelector("#sortAll");
 sortAll.addEventListener("click", (evt) => {
   evt.preventDefault();
-  for (let i = 0; i < state.numberBank.length; i++) {
-    const uno = state.numberBank.pop();
+  while (state.numberBank.length !== 0) {
+    const uno = state.numberBank[0];
     if (uno % 2 === 0) {
       state.Evens.push(uno);
     } else {
       state.Odds.push(uno);
     }
+    state.numberBank.shift()
   }
   showState();
+
+  console.log(state);
 });
