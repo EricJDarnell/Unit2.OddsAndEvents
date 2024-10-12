@@ -54,7 +54,7 @@ const formElem = document.querySelector("form");
 formElem.addEventListener("submit", (evt) => {
   evt.preventDefault();
   userInput = document.querySelector("#number").value;
-  if (userInput !== "") {
+  if (userInput) {
     const inputArray = userInput.split(",");
     for (let i = 0; i < inputArray.length; i++) {
       if (cleanInput(inputArray[i]) !== "") {
@@ -63,9 +63,7 @@ formElem.addEventListener("submit", (evt) => {
     }
 
     showState();
-  } else {
-    console.log("do nothing"); //don't need to leave this
-  }
+  } else {return}
   /** Adding changes here for extension*/
 });
 const randomButton = document.querySelector("#randomButton"); //extension!!
@@ -85,7 +83,7 @@ sortOne.addEventListener("click", (evt) => {
   evt.preventDefault(); //keeps the page from refreshing when you click them buttons
   //sort into the odd and even arrays easy with if/then
   const uno = state.numberBank[0];
-  if (uno !== undefined) {
+  if (uno || uno === 0) {
     if (uno % 2 === 0) {
       state.Evens.push(uno);
     } else {
