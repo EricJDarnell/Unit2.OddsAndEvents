@@ -4,6 +4,21 @@ const state = {
   Evens: [],
 };
 function showState() {
+    if (dropdown.value === 'ascending') {
+        state.Odds.sort((a,b) => a - b );  //sorts into ascending order
+        state.Evens.sort((a,b) => a - b );
+    } else {
+        const ascendingOdds = state.Odds.sort((a,b) => a - b ); //more involved for descending order
+        state.Odds = [];
+        for (let i = 0; i < ascendingOdds.length; i++) {
+            state.Odds.push(ascendingOdds[ascendingOdds.length - i - 1]);
+        }
+        const ascendingEvens = state.Evens.sort((a,b) => a - b );
+        state.Evens = [];
+        for (let i = 0; i < ascendingEvens.length; i++) {
+            state.Evens.push(ascendingEvens[ascendingEvens.length - i - 1]);
+        }    
+    }
   // output element in the section id="numberBank"
   const sectionBank = document.querySelector("#numberBank");
   const bankOutput = sectionBank.querySelector("output");
@@ -104,6 +119,7 @@ const numSortSpan = document.querySelector('#numSortSpan');
 numSort.addEventListener('input', () => {
     numSortSpan.innerText = numSort.value;
 } );
+
 const numSortButton = document.querySelector('#numSortButton');
 numSortButton.addEventListener('click', (evt) => {
     evt.preventDefault();
@@ -118,3 +134,6 @@ numSortButton.addEventListener('click', (evt) => {
       }
       showState();
 });
+
+const dropdown = document.querySelector("#dropdown");
+dropdown.addEventListener('input', showState); 
