@@ -125,7 +125,10 @@ numSortButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     for (let i = 0; i < numSort.value; i++ ) {
         const uno = state.numberBank[0];
-        if (uno % 2 === 0) {
+        if (uno === undefined) {
+            console.log("do nothing"); // I'm not sure how to do nothing
+        }
+        else if (uno % 2 === 0) {
           state.Evens.push(uno);
         } else {
           state.Odds.push(uno);
