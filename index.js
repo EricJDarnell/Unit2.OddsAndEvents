@@ -3,7 +3,6 @@ const state = {
   Odds: [],
   Evens: [],
 };
-
 function showState() {
   // output element in the section id="numberBank"
   const sectionBank = document.querySelector("#numberBank");
@@ -31,15 +30,43 @@ function showState() {
     evensOutput.textContent += `${state.Evens[i]} `;
   }
 }
+function cleanInput(str) {
+    const regex = /[\D]/g;
+    return str.replace(regex,"");
+}
+
 
 const formElem = document.querySelector("form");
 formElem.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const submittedNumber = document.querySelector("#number");
-  state.numberBank.push(submittedNumber.value);
+   userInput = document.querySelector("#number").value;
+  if (userInput !== ""){
+    const inputArray = userInput.split(","); 
+    for (let i=0; i < inputArray.length; i++){
+        if (cleanInput(inputArray[i]) !== ""){
+            state.numberBank.push(cleanInput(inputArray[i]) * 1);
+        }
+    }
+        
+      showState();
+  } else {
+    console.log("do nothing");//don't need to leave this
+  }
+  /** Adding changes here for extension*/
 
-  showState(); // shows numbers in Number Bank
 
+
+});
+const randomButton = document.querySelector("#randomButton"); //extension!!
+randomButton.addEventListener("click", (evt) => {
+    evt.preventDefault()
+    const randomNumber = Math.floor(Math.random() * 100);
+    if (Math.floor(Math.random()*20) < 7){
+        state.numberBank.push(-1*randomNumber);
+    } else{
+        state.numberBank.push(randomNumber);
+    }
+    showState();
 });
 
 const sortOne = document.querySelector("#sortOne");
@@ -60,7 +87,7 @@ sortOne.addEventListener("click", (evt) => {
 const sortAll = document.querySelector("#sortAll");
 sortAll.addEventListener("click", (evt) => {
   evt.preventDefault();
-  while (state.numberBank.length !== 0) {
+  while (state.numberBank.length !== 0) { //started with a for loop, and then took a bit of time to figure out why that wasn't working.
     const uno = state.numberBank[0];
     if (uno % 2 === 0) {
       state.Evens.push(uno);
@@ -70,6 +97,24 @@ sortAll.addEventListener("click", (evt) => {
     state.numberBank.shift()
   }
   showState();
+});
 
-  console.log(state);
+const numSort = document.querySelector('#numSort');
+const numSortSpan = document.querySelector('#numSortSpan');
+numSort.addEventListener('input', () => {
+    numSortSpan.innerText = numSort.value;
+} );
+const numSortButton = document.querySelector('#numSortButton');
+numSortButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    for (let i = 0; i < numSort.value; i++ ) {
+        const uno = state.numberBank[0];
+        if (uno % 2 === 0) {
+          state.Evens.push(uno);
+        } else {
+          state.Odds.push(uno);
+        }
+        state.numberBank.shift()
+      }
+      showState();
 });
