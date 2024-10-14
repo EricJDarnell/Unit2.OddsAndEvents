@@ -45,26 +45,25 @@ function showState() {
     evensOutput.textContent += `${state.Evens[i]} `;
   }
 }
-function cleanInput(str) {
-  const regex = /[\D]/g;
-  return str.replace(regex, "");
+
+function filterInput(input){
+  const regex = /-?\d+/g;
+  const matches = input.match(regex) || [];
+  return matches;
 }
 
 const formElem = document.querySelector("form");
+const numberElement = document.querySelector("#number");
 formElem.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  userInput = document.querySelector("#number").value;
-  if (userInput) {
-    const inputArray = userInput.split(",");
-    for (let i = 0; i < inputArray.length; i++) {
-      if (cleanInput(inputArray[i]) !== "") {
-        state.numberBank.push(cleanInput(inputArray[i]) * 1);
-      }
-    }
-
-    showState();
-  } else {return}
-  /** Adding changes here for extension*/
+  if (!numberElement.value){return} //does not add an empty value if string is input is left blank
+  console.log(numberElement.value);
+  const cleanArray = filterInput(numberElement.value);
+  for (let i =0; i < cleanArray.length; i++) {
+    state.numberBank.push(cleanArray[i]);
+  }
+  showState();
+  console.log
 });
 const randomButton = document.querySelector("#randomButton"); //extension!!
 randomButton.addEventListener("click", (evt) => {
